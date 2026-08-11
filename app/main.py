@@ -19,22 +19,35 @@ def home():
 
 #     return products[id]
 
-@app.get("/prod")
+@app.get("/prods")
 def all_prod():
     return get_all_products()
 
 
+
+
 @app.get("/products")
-def list_products(name: str = Query(min_length=1, max_length=60, default=None, description="Search Peroducts!")):
+def list_products(
+    name: str = Query(min_length=1, max_length=60, default=None, description="Search Peroducts"),
+    price: bool = Query(default=False, description="Sort products by price"),
+    order: str = Query(default="asc", description="Select order of price (asc or desc)"),
+    limit: int = Query(default=5, ge=1,le=50, description="Maximum number of products to show")
+    ):
+
     products = get_all_products()
 
     if name:
         needle = name.strip().lower()
         products = [p for p in products if needle in p.get("name", "").lower()]
 
-        if not products:
-            raise HTTPException(status_code=404, detail="No product found!")
+    if not products:
+        raise HTTPException(status_code=404, detail="No product found!")
 
-        total = len(products)
+    if price:
+        rev = order == "desc"
+        products = sorted(products, key=lambda p: p.get("price", 0), reverse=rev)
 
-    return {"Total": total, "Items": products}
+    total = len(products)
+    products = products[:limit]
+
+    return {"Total": total, "Limit": limit, "Items": products}
