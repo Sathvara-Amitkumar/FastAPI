@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query, Path
 from services.products import get_all_products
+from schema.products import Product
 
 app = FastAPI()
 
@@ -61,3 +62,9 @@ def get_product_byId(product_id: str = Path(..., min_length=36, max_length=36,
             return product
 
     raise HTTPException(status_code=404, detail=f"Product Not Found with id => {product_id}")
+
+
+# Post Methods
+@app.post("/products", status_code=201)
+def create_product(product: Product):
+    return product
