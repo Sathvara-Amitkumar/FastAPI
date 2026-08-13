@@ -1,0 +1,33 @@
+[
+  {
+    "id": "0005a4ea-ce3f-4dd7-bee0-f4ccc70fea6a",
+    "sku": "XIAO-359GB-001",
+    "name": "Xiaomi Model Pro",
+    "description": "Official Xiaomi product with manufacturer warranty",
+    "category": "laptops",
+    "brand": "Xiaomi",
+    "price": 25058.0,
+    "currency": "INR",
+    "discount_percent": 0,
+    "stock": 45,
+    "is_active": true,
+    "rating": 4.8,
+    "tags": ["charger", "amoled", "tablet"],
+    "image_urls": [
+      "https://cdn.example.com/xiaomi/front.png",
+      "https://cdn.example.com/xiaomi/back.png"
+    ],
+    "dimensions_cm": {
+      "length": 27.4,
+      "width": 20.8,
+      "height": 1.9
+    },
+    "seller": {
+      "seller_id": "73cbdd06-5668-4e52-b172-e765f8468398",
+      "name": "Mi Store",
+      "email": "support@mistore.in",
+      "website": "https://www.mistore.in"
+    },
+    "created_at": "2024-09-06T00:00:00Z"
+  }
+]
