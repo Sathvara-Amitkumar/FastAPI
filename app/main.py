@@ -49,7 +49,10 @@ def list_products(
     total = len(products)
     products = products[:limit]
 
+    products = [Product(**p) for p in products]
+
     return {"Total": total, "Limit": limit, "Items": products}
+
 
 @app.get("/products/{product_id}")
 def get_product_byId(product_id: str = Path(..., min_length=36, max_length=36, 

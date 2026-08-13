@@ -49,6 +49,7 @@ class Product(BaseModel):
 
         return value
 
+
     @model_validator(mode="after")
     @classmethod
     def validate_business_rules(cls, model: "Product"):
@@ -57,3 +58,11 @@ class Product(BaseModel):
 
         if model.discount_percent > 0 and model.rating == 0:
             raise ValueError("Discounted product must have rating.")
+
+        return model
+
+
+    @computed_field
+    @property
+    def final_price(self) -> float:
+        return round(self.price * (1 - (self.discount_percent / 100)), 2)
