@@ -15,7 +15,7 @@ class Seller(BaseModel):
     @field_validator("email", mode="after")
     @classmethod
     def email_domain_validation(cls, value: EmailStr):
-        allowed_domain = ["samsung.com", "hpworld.in", "mistore.in"]
+        allowed_domain = ["samsung.com", "hpworld.in", "mistore.in", "lenovostore.in"]
         domain = str(value).split("@")[-1].lower()
 
         if domain not in allowed_domain:
@@ -50,7 +50,7 @@ class Product(BaseModel):
 
     category: Annotated[str, Field(max_length=50, description="Category", examples=['electronics', 'laptop', 'mobile'])]
 
-    brand: Annotated[str, Field(max_length=50, description="Brand", examples=["Samsung", "Apple", "Xiaomi"]) ]
+    brand: Annotated[str, Field(max_length=50, description="Brand", examples=["Samsung", "Apple", "Xiaomi", "Lenovo"]) ]
 
     price: Annotated[float, Field(gt=0, description="Product price", examples=[35840, 65000])]
 

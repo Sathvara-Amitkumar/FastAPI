@@ -34,10 +34,10 @@ def add_products(product: Dict) -> Dict:
 
 
 # delete products
-def remove_product(sku: str = Query(description="Enter SKU code to remove")) -> str:
+def remove_product(sku: str) -> str:
     products = get_all_products()
 
-    remove_prod = next((sku == p["sku"] for p in products), None)
+    remove_prod = next((p for p in products if p["sku"] == sku), None)
     if remove_prod is None:
         raise ValueError("Product not found.")
     
