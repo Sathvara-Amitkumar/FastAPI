@@ -16,10 +16,12 @@ def load_products() -> List[Dict]:
 def get_all_products() -> List[Dict]:
     return load_products()
 
+
 # Save products
 def save_products(products: List[Dict]) -> None:
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(products, f, indent=2, ensure_ascii=False)
+
 
 # add product in json and save them
 def add_products(product: Dict) -> Dict:
@@ -34,14 +36,32 @@ def add_products(product: Dict) -> Dict:
 
 
 # delete products
-def remove_product(sku: str) -> str:
+def remove_product(id: str) -> str:
     products = get_all_products()
 
-    remove_prod = next((p for p in products if p["sku"] == sku), None)
+    remove_prod = next((p for p in products if p["id"] == id), None)
     if remove_prod is None:
         raise ValueError("Product not found.")
     
     products.remove(remove_prod)
     save_products(products)
-
     return "Product removed successfully!"
+
+# This one is also useful !
+    # for idx, p in enumerate(products):
+	# if p["id"] == str(id):
+	# 	delete = products.pop(idx)
+
+
+# Update product
+def change_product(id: str, product: Dict) -> str:
+    products = get_all_products()
+
+    update_id = next((p for p in products if p["id"] == id), None)
+
+    # if update_id is None:
+    #     raise ValueError("Id is not found!")
+
+    products.update(update_id)
+    save_products(products)
+    return "Product update successfully!"

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query, Path
-from services.products import get_all_products, add_products, remove_product
+from services.products import get_all_products, add_products, remove_product, change_product
 from schema.products import Product
-from uuid import uuid4
+from uuid import uuid4, UUID
 from datetime import datetime
 
 app = FastAPI()
@@ -22,11 +22,14 @@ def home():
 
 #     return products[id]
 
-@app.get("/prods")
-def all_prod():
-    return get_all_products()
+
+# All pproducts---------------------------------------------------------------
+# @app.get("/prods")
+# def all_prod():
+#     return get_all_products()
 
 
+# Search products by name and sort them ----------------------------------------------
 @app.get("/products")
 def list_products(
     name: str = Query(min_length=1, max_length=60, default=None, description="Search Peroducts"),
@@ -56,17 +59,17 @@ def list_products(
     return {"Total": total, "Limit": limit, "Items": products}
 
 
-# @app.get("/products/{product_id}")
-# def get_product_byId(product_id: str = Path(..., min_length=36, max_length=36, 
-#                            description="Search product by product_id", example="6c7b7c69-f07f-4474-992e-58d3c48ac4370")):
+@app.get("/products/{product_id}")
+def get_product_by_id(product_id: str = Path(..., min_length=36, max_length=36, 
+                           description="Search product by product_id", example="6c7b7c69-f07f-4474-992e-58d3c48ac4370")):
     
-#     products = get_all_products()
+    products = get_all_products()
 
-#     for product in products:
-#         if product["id"] == product_id:
-#             return product
+    for product in products:
+        if product["id"] == product_id:
+            return product
 
-#     raise HTTPException(status_code=404, detail=f"Product Not Found with id => {product_id}")
+    raise HTTPException(status_code=404, detail=f"Product Not Found with id => {product_id}")
 
 
 # Post Methods
@@ -83,11 +86,27 @@ def create_product(product: Product):
 
     return product.model_dump(mode="json")
 
-# Delete method
-@app.delete("/del_product", status_code=200)
-def delete_product(sku):
 
+# Delete method
+@app.delete("/del_product/{product_id}", status_code=200)
+def delete_product(id: UUID = Path(..., description="Enter product id which u want to delete")):
     try:
-        remove_product(sku)
+        res = remove_product(str(id))
+        return res
     except ValueError as e:
         raise HTTPException(detail=str(e), status_code=400)
+
+
+@app.put("/products/{product_id}")
+def update_product(product: Product, product_id: UUID = Path(..., description="Enter product id which u want to delete")):
+    try:
+        res = change_product(str(id), product.model_dump(mode="json"))
+        return res
+    except ValueError as e:
+        raise HTTPException(detail=str(e), status_code=400)
+
+
+    # return {
+    #     "product_id": str(product_id),
+    #     "updated_product": product.model_dump(mode="json")
+    # }

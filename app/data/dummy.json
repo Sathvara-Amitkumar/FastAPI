@@ -1,39 +1,5 @@
 [
   {
-    "id": "9bf16068-5b87-47ec-9bd4-7aad48c8126c",
-    "sku": "REAL-135GB-001",
-    "name": "Xiaomi Model Pro",
-    "description": "string",
-    "category": "electronics",
-    "brand": "Samsung",
-    "price": 35840.0,
-    "currency": "INR",
-    "discount_percent": 15,
-    "stock": 20,
-    "is_active": true,
-    "rating": 4.5,
-    "tags": [
-      "string"
-    ],
-    "image_urls": [
-      "https://example.com/"
-    ],
-    "dimensions_cm": {
-      "length": 27.4,
-      "width": 20.9,
-      "height": 5.4
-    },
-    "seller": {
-      "Seller_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "name": "Samsung india",
-      "email": "amit2005@samsung.com",
-      "website": "https://example.com/"
-    },
-    "created_at": "2026-08-17T07:12:23.422237Z",
-    "final_price": 30464.0,
-    "volume": 3092.36
-  },
-  {
     "id": "4f559664-072f-4224-b9dc-9b89e17f88e6",
     "sku": "LENO-108GB-002",
     "name": "Lenovo Model Ultra",
@@ -68,5 +34,39 @@
     "created_at": "2026-08-17T07:26:35.978032Z",
     "final_price": 83541.6,
     "volume": 289.71
+  },
+  {
+    "id": "11bd41fd-db80-4382-be0e-c00847db35e7",
+    "sku": "REAL-135GB-001",
+    "name": "Xiaomi Model Pro",
+    "description": "string",
+    "category": "electronics",
+    "brand": "Samsung",
+    "price": 35840.0,
+    "currency": "INR",
+    "discount_percent": 15,
+    "stock": 20,
+    "is_active": true,
+    "rating": 4.5,
+    "tags": [
+      "string"
+    ],
+    "image_urls": [
+      "https://example.com/"
+    ],
+    "dimensions_cm": {
+      "length": 27.4,
+      "width": 20.9,
+      "height": 5.4
+    },
+    "seller": {
+      "Seller_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Samsung india",
+      "email": "amit2005@samsung.com",
+      "website": "https://example.com/"
+    },
+    "created_at": "2026-08-17T08:28:54.103232Z",
+    "final_price": 30464.0,
+    "volume": 3092.36
   }
 ]
