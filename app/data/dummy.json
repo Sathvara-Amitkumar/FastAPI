@@ -12,7 +12,11 @@
     "stock": 45,
     "is_active": true,
     "rating": 4.8,
-    "tags": ["charger", "amoled", "tablet"],
+    "tags": [
+      "charger",
+      "amoled",
+      "tablet"
+    ],
     "image_urls": [
       "https://cdn.example.com/xiaomi/front.png",
       "https://cdn.example.com/xiaomi/back.png"
@@ -29,5 +33,76 @@
       "website": "https://www.mistore.in"
     },
     "created_at": "2024-09-06T00:00:00Z"
+  },
+  {
+    "id": "ea0cd67d-69a8-473b-a7c3-f36ea68dfaae",
+    "sku": "REAL-135GB-002",
+    "name": "Xiaomi Model Pro",
+    "description": "string",
+    "category": "electronics",
+    "brand": "Samsung",
+    "price": 35840.0,
+    "currency": "INR",
+    "discount_percent": 15,
+    "stock": 20,
+    "is_active": true,
+    "rating": 4.5,
+    "tags": [
+      "string"
+    ],
+    "image_urls": [
+      "https://example.com/"
+    ],
+    "dimensions_cm": {
+      "length": 27.4,
+      "width": 20.9,
+      "height": 5.4
+    },
+    "seller": {
+      "Seller_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Samsung india",
+      "email": "amit2005@samsung.com",
+      "website": "https://example.com/"
+    },
+    "created_at": "2026-08-16T09:08:17.143779Z",
+    "final_price": 30464.0,
+    "volume": 3092.36
+  },
+  {
+    "id": "fe941b22-fc37-452b-b5d5-7b803c2e723c",
+    "sku": "REAL-135GB-003",
+    "name": "Iphone 17 Pro",
+    "description": "string",
+    "category": "electronics",
+    "brand": "Apple",
+    "price": 65400.0,
+    "currency": "INR",
+    "discount_percent": 21,
+    "stock": 25,
+    "is_active": true,
+    "rating": 4.9,
+    "tags": [
+      "notjuice",
+      "iphone",
+      "apple",
+      "apple17pro"
+    ],
+    "image_urls": [
+      "https://apple.com/"
+    ],
+    "dimensions_cm": {
+      "length": 20.5,
+      "width": 35.9,
+      "height": 8.0
+    },
+    "seller": {
+      "Seller_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Apple india",
+      "email": "amit2005@hpworld.in",
+      "website": "https://example.com/"
+    },
+    "created_at": "2026-08-16T09:13:04.400266Z",
+    "final_price": 51666.0,
+    "volume": 5887.6
   }
 ]

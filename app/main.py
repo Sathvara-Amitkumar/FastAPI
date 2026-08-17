@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException, Query, Path
-from services.products import get_all_products
+from services.products import get_all_products, add_products, remove_product
 from schema.products import Product
+from uuid import uuid4
+from datetime import datetime
 
 app = FastAPI()
 
@@ -54,20 +56,38 @@ def list_products(
     return {"Total": total, "Limit": limit, "Items": products}
 
 
-@app.get("/products/{product_id}")
-def get_product_byId(product_id: str = Path(..., min_length=36, max_length=36, 
-                           description="Search product by product_id", example="6c7b7c69-f07f-4474-992e-58d3c48ac4370")):
+# @app.get("/products/{product_id}")
+# def get_product_byId(product_id: str = Path(..., min_length=36, max_length=36, 
+#                            description="Search product by product_id", example="6c7b7c69-f07f-4474-992e-58d3c48ac4370")):
     
-    products = get_all_products()
+#     products = get_all_products()
 
-    for product in products:
-        if product["id"] == product_id:
-            return product
+#     for product in products:
+#         if product["id"] == product_id:
+#             return product
 
-    raise HTTPException(status_code=404, detail=f"Product Not Found with id => {product_id}")
+#     raise HTTPException(status_code=404, detail=f"Product Not Found with id => {product_id}")
 
 
 # Post Methods
 @app.post("/products", status_code=201)
 def create_product(product: Product):
-    return product
+    product_dict = product.model_dump(mode="json")
+    product_dict["id"] = str(uuid4())
+    product_dict["created_at"] = datetime.utcnow().isoformat() + "Z"
+
+    try:
+        add_products(product_dict)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return product.model_dump(mode="json")
+
+# Delete method
+@app.delete("/del_product", status_code=200)
+def delete_product(sku):
+
+    try:
+        remove_product(sku)
+    except ValueError as e:
+        raise HTTPException(detail=str(e), status_code=400)
