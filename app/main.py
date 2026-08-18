@@ -1,17 +1,17 @@
-from fastapi import FastAPI, HTTPException, Query, Path
-from services.products import get_all_products, add_products, remove_product, change_product
+from fastapi import FastAPI, HTTPException, Query, Path, Depends
+from services.products import get_all_products, add_products, remove_product, change_product, load_products
 from schema.products import Product
 from uuid import uuid4, UUID
 from datetime import datetime
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {
-        "message": "Hello, PY coder!",
-        "error":"i'm stuck."
-    }
+# @app.get("/")
+# def home():
+#     return {
+#         "message": "Hello, PY coder!",
+#         "error":"i'm stuck."
+#     }
 
 # @app.get("/products/{id}")
 # def get_products(id: int):
@@ -31,14 +31,15 @@ def home():
 
 # Search products by name and sort them ----------------------------------------------
 @app.get("/products")
-def list_products(
+def list_products(dep=Depends(load_products), # Dependencie Injection
     name: str = Query(min_length=1, max_length=60, default=None, description="Search Peroducts"),
     price: bool = Query(default=False, description="Sort products by price"),
     order: str = Query(default="asc", description="Select order of price (asc or desc)"),
     limit: int = Query(default=5, ge=1,le=50, description="Maximum number of products to show")
     ):
 
-    products = get_all_products()
+    # Dependencie Injection
+    products = dep
 
     if name:
         needle = name.strip().lower()
