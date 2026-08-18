@@ -5,17 +5,20 @@ from datetime import datetime
 
 # Seller Model
 class Seller(BaseModel):
-    Seller_id: UUID
+    seller_id: UUID
 
     name: Annotated[str, Field(min_length=5, max_length=50, title="Seller Name", 
                                   description="Seller Name", examples=["Samsung india", "Mi Store", "Realme Official"])]
     email: EmailStr = "amit2005@samsung.com"
     website: AnyUrl
 
+    # Email domain validation
     @field_validator("email", mode="after")
     @classmethod
     def email_domain_validation(cls, value: EmailStr):
-        allowed_domain = ["samsung.com", "hpworld.in", "mistore.in", "lenovostore.in"]
+
+        allowed_domain = ['mistore.in', 'realmeofficial.in', 'samsungindia.in', 'lenovostore.in', 'asusexclusive.in', 'hpworld.in', 'applestoreindia.in', 'oneplusstore.in', 'dellexclusive.in', 'sonycenter.in']
+
         domain = str(value).split("@")[-1].lower()
 
         if domain not in allowed_domain:
@@ -66,7 +69,7 @@ class Product(BaseModel):
 
     tags: Annotated[Optional[List[str]], Field(default=None, max_length=10, description="Upto 10 Tags")]
 
-    image_urls: Annotated[List[AnyUrl], Field(max_length=1, description="Images URLs")]
+    image_urls: Annotated[List[AnyUrl], Field(max_length=5, description="Images URLs")]
 
     dimensions_cm: Dimensions
 

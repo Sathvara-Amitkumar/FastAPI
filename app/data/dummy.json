@@ -1,50 +1,48 @@
 [
   {
-    "id": "4f559664-072f-4224-b9dc-9b89e17f88e6",
-    "sku": "LENO-108GB-002",
-    "name": "Lenovo Model Ultra",
-    "description": "Official Lenovo product with manufacturer warranty",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "sku": "REAL-135GB-001",
+    "name": "Xiaomi Model Pro",
+    "description": "string",
     "category": "electronics",
-    "brand": "Lenovo",
-    "price": 104427.0,
+    "brand": "MI",
+    "price": 39700.0,
     "currency": "INR",
-    "discount_percent": 20,
-    "stock": 89,
+    "discount_percent": 15,
+    "stock": 20,
     "is_active": true,
-    "rating": 4.1,
+    "rating": 4.5,
     "tags": [
-      "camera",
-      "amoled",
-      "tablet"
+      "string"
     ],
     "image_urls": [
-      "https://cdn.example.com/"
+      "https://example.com/"
     ],
     "dimensions_cm": {
-      "length": 22.2,
-      "width": 14.5,
-      "height": 0.9
+      "length": 23.4,
+      "width": 18.5,
+      "height": 5.6
     },
     "seller": {
-      "Seller_id": "28ca90ec-fc16-4ab5-89f6-5a7c0396b72d",
-      "name": "Lenovo Store",
-      "email": "support@lenovostore.in",
-      "website": "https://www.lenovostore.in/"
+      "Seller_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Xiomi india",
+      "email": "ak404@mistore.in",
+      "website": "https://example.com/"
     },
-    "created_at": "2026-08-17T07:26:35.978032Z",
-    "final_price": 83541.6,
-    "volume": 289.71
+    "created_at": "2026-08-18T05:07:59.975000Z",
+    "final_price": 33745.0,
+    "volume": 2424.24
   },
   {
     "id": "11bd41fd-db80-4382-be0e-c00847db35e7",
-    "sku": "SUNG-135GB-001",
+    "sku": "SUNG-135GB-002",
     "name": "Samsung S26 Ultra",
     "description": "Samsung is the king of MOBILE world.",
     "category": "electronics",
     "brand": "Samsung",
-    "price": 35840.0,
+    "price": 126000.0,
     "currency": "INR",
-    "discount_percent": 15,
+    "discount_percent": 13,
     "stock": 30,
     "is_active": true,
     "rating": 4.5,
@@ -55,8 +53,8 @@
       "https://example.com/"
     ],
     "dimensions_cm": {
-      "length": 27.4,
-      "width": 20.9,
+      "length": 29.4,
+      "width": 22.9,
       "height": 5.4
     },
     "seller": {
@@ -66,7 +64,41 @@
       "website": "https://example.com/"
     },
     "created_at": "2026-08-17T08:28:54.103232Z",
-    "final_price": 30464.0,
-    "volume": 3092.36
+    "final_price": 109620.0,
+    "volume": 3635.6
+  },
+  {
+    "id": "11bd41fd-as80-4382-be0e-c00847db35e7",
+    "sku": "MUNG-135GB-003",
+    "name": "Samsung S25 Ultra",
+    "description": "Samsung is the king of MOBILE world.",
+    "category": "Mobile",
+    "brand": "Samsung",
+    "price": 100000.0,
+    "currency": "INR",
+    "discount_percent": 13,
+    "stock": 30,
+    "is_active": true,
+    "rating": 4.5,
+    "tags": [
+      "string"
+    ],
+    "image_urls": [
+      "https://example.com/"
+    ],
+    "dimensions_cm": {
+      "length": 29.4,
+      "width": 22.9,
+      "height": 5.4
+    },
+    "seller": {
+      "Seller_id": "3fa8fd64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Samsung india",
+      "email": "amit2005@samsung.com",
+      "website": "https://example.com/"
+    },
+    "created_at": "2026-08-17T08:28:54.103232Z",
+    "final_price": 109620.0,
+    "volume": 3635.6
   }
 ]

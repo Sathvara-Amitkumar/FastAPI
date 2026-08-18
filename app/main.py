@@ -54,7 +54,7 @@ def list_products(
     total = len(products)
     products = products[:limit]
 
-    products = [Product(**p) for p in products]
+    # products = [Product(**p) for p in products]
 
     return {"Total": total, "Limit": limit, "Items": products}
 
@@ -97,16 +97,11 @@ def delete_product(id: UUID = Path(..., description="Enter product id which u wa
         raise HTTPException(detail=str(e), status_code=400)
 
 
+# UPdate Method
 @app.put("/products/{product_id}")
 def update_product(product: Product, product_id: UUID = Path(..., description="Enter product id which u want to delete")):
     try:
-        res = change_product(str(product_id), product.model_dump(mode="json"))
+        res = change_product(str(product_id), product.model_dump(mode="json", exclude_unset=True))
         return res
     except ValueError as e:
         raise HTTPException(detail=str(e), status_code=400)
-
-
-    # return {
-    #     "product_id": str(product_id),
-    #     "updated_product": product.model_dump(mode="json")
-    # }

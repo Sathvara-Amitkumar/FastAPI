@@ -3,7 +3,7 @@ import json
 from typing import List, Dict
 from fastapi import Query
 
-DATA_FILE = Path(__file__).parent.parent / "data" / "dummy.json"
+DATA_FILE = Path(__file__).parent.parent / "data" / "products.json"
 
 def load_products() -> List[Dict]:
     if not DATA_FILE.exists():
@@ -58,10 +58,10 @@ def change_product(id: str, product: Dict) -> str:
     products = get_all_products()
 
     update_id = next((p for p in products if p["id"] == id), None)
-    
+
     if update_id is None:
         raise ValueError("Id is not found!")
 
     update_id.update(product)
     save_products(products)
-    return "Product update successfully!"
+    return "Product updated successfully!"
