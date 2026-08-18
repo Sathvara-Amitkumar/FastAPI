@@ -6,10 +6,10 @@
     "description": "Official Xiaomi product with manufacturer warranty",
     "category": "laptops",
     "brand": "Xiaomi",
-    "price": 30800.0,
+    "price": 31900.0,
     "currency": "INR",
     "discount_percent": 10,
-    "stock": 45,
+    "stock": 40,
     "is_active": true,
     "rating": 4.8,
     "tags": [
@@ -33,7 +33,7 @@
       "website": "https://www.mistore.in/"
     },
     "created_at": "2024-09-06T00:00:00Z",
-    "final_price": 27720.0,
+    "final_price": 28710.0,
     "volume": 1082.85
   },
   {
