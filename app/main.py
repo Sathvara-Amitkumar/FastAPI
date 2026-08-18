@@ -100,7 +100,7 @@ def delete_product(id: UUID = Path(..., description="Enter product id which u wa
 @app.put("/products/{product_id}")
 def update_product(product: Product, product_id: UUID = Path(..., description="Enter product id which u want to delete")):
     try:
-        res = change_product(str(id), product.model_dump(mode="json"))
+        res = change_product(str(product_id), product.model_dump(mode="json"))
         return res
     except ValueError as e:
         raise HTTPException(detail=str(e), status_code=400)

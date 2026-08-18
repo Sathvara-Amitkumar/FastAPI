@@ -58,10 +58,10 @@ def change_product(id: str, product: Dict) -> str:
     products = get_all_products()
 
     update_id = next((p for p in products if p["id"] == id), None)
+    
+    if update_id is None:
+        raise ValueError("Id is not found!")
 
-    # if update_id is None:
-    #     raise ValueError("Id is not found!")
-
-    products.update(update_id)
+    update_id.update(product)
     save_products(products)
     return "Product update successfully!"
