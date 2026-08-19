@@ -57,11 +57,11 @@ def show_api_error(response):
     st.error(f"HTTP {response.status_code}: {detail}")
 
 
-def get_products():
+def get_products(page=1):
     response = api_request(
         "GET",
         "/products",
-        params={"limit": 100},
+        params={"page": page, "limit": 50},
     )
 
     if response is None or not response.ok:
@@ -331,6 +331,32 @@ with tab_dashboard:
 
     if st.button("🔄 Refresh Products", key="refresh_products"):
         st.rerun()
+
+# -------------------------------------------------------
+    # Pagination
+    if "page" not in st.session_state:
+        st.session_state.page = 1
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+
+    with col1:
+        if st.button("⬅️ Previous", disabled=st.session_state.page == 1):
+            st.session_state.page -= 1
+            st.rerun()
+
+    with col2:
+        st.markdown(
+            f"<h4 style='text-align:center;'>Page {st.session_state.page}</h4>",
+            unsafe_allow_html=True
+        )
+
+    with col3:
+        if st.button("Next ➡️"):
+            st.session_state.page += 1
+            st.rerun()
+# ---------------------------------------------------------
+
+    products = get_products(st.session_state.page)
 
     products = get_products()
 

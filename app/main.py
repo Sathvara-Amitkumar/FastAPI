@@ -12,7 +12,8 @@ def list_products(dep=Depends(load_products), # Dependencie Injection
     name: str = Query(min_length=1, max_length=60, default=None, description="Search Peroducts"),
     price: bool = Query(default=False, description="Sort products by price"),
     order: str = Query(default="asc", description="Select order of price (asc or desc)"),
-    limit: int = Query(default=5, ge=1,le=100, description="Maximum number of products to show")
+    page: int = Query(default=1, ge=1),
+    limit: int = Query(default=5, ge=1,le=50, description="Maximum number of products to show")
     ):
 
     # Dependencie Injection
@@ -30,7 +31,13 @@ def list_products(dep=Depends(load_products), # Dependencie Injection
         products = sorted(products, key=lambda p: p.get("price", 0), reverse=rev)
 
     total = len(products)
-    products = products[:limit]
+
+    # Pagination
+    start = (page - 1) * limit
+    end = start + limit
+
+    products = products[start:end]
+    # products = products[:limit]
 
     # products = [Product(**p) for p in products]
 
