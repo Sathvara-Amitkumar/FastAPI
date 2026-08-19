@@ -358,7 +358,7 @@ with tab_dashboard:
 
     products = get_products(st.session_state.page)
 
-    products = get_products()
+    # products = get_products()
 
     if products:
         df = pd.json_normalize(products)
