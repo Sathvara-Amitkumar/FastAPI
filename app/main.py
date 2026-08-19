@@ -66,7 +66,7 @@ def create_product(product: Product):
 
 
 # Delete method
-@app.delete("/del_product/{product_id}", status_code=200)
+@app.delete("/del_product/{id}", status_code=200)
 def delete_product(id: UUID = Path(..., description="Enter product id which u want to delete")):
     try:
         res = remove_product(str(id))

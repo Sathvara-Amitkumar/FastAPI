@@ -14,7 +14,6 @@ st.set_page_config(
 )
 
 st.title("📦 Product Management Dashboard")
-st.caption("Streamlit UI for your FastAPI CRUD + Search project")
 
 API_BASE_URL = "http://127.0.0.1:8000"
 

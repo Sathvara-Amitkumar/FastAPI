@@ -43,7 +43,7 @@
     "description": "Official Realme product with manufacturer warranty",
     "category": "electronics",
     "brand": "Realme",
-    "price": 18249.0,
+    "price": 19900.0,
     "currency": "INR",
     "discount_percent": 10,
     "stock": 47,
@@ -67,9 +67,11 @@
       "seller_id": "5ff1519e-b952-4315-9151-c94b938123c9",
       "name": "Realme Official",
       "email": "support@realmeofficial.in",
-      "website": "https://www.realmeofficial.in"
+      "website": "https://www.realmeofficial.in/"
     },
-    "created_at": "2025-05-12T00:00:00Z"
+    "created_at": "2025-05-12T00:00:00Z",
+    "final_price": 17910.0,
+    "volume": 1498.56
   },
   {
     "id": "394d40e7-2a95-445d-8738-c6af6be5a97e",
@@ -3500,5 +3502,42 @@
       "website": "https://www.hpworld.in"
     },
     "created_at": "2025-05-31T00:00:00Z"
+  },
+  {
+    "id": "f59665b3-4964-4262-b767-593d1faa354a",
+    "sku": "SAMS-512GB-101",
+    "name": "Samsung S26 Ultra",
+    "description": "Brand, who made the glass of the iPhone.",
+    "category": "Mobile",
+    "brand": "Samsung",
+    "price": 189000.0,
+    "currency": "INR",
+    "discount_percent": 8,
+    "stock": 35,
+    "is_active": true,
+    "rating": 4.8,
+    "tags": [
+      "mobile",
+      "samrtphone",
+      "privacy",
+      "samsung"
+    ],
+    "image_urls": [
+      "https://samsung.front.png/"
+    ],
+    "dimensions_cm": {
+      "length": 25.5,
+      "width": 14.3,
+      "height": 21.5
+    },
+    "seller": {
+      "seller_id": "0866cae2-2784-4791-a00c-556f74c835b7",
+      "name": "Might Guy",
+      "email": "guymight719@samsungindia.in",
+      "website": "https://www.might.com/"
+    },
+    "created_at": "2026-08-19T10:28:45.319189Z",
+    "final_price": 173880.0,
+    "volume": 7839.98
   }
 ]
