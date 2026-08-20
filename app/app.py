@@ -332,22 +332,14 @@ with tab_dashboard:
     if st.button("🔄 Refresh Products", key="refresh_products"):
         st.rerun()
 
-    products, total = get_products(1)
-
-    total_pages = max(1, (total + 49) // 50)
-
-    page = st.pagination(
-        num_pages=total_pages,
-        max_visible_pages=7,
-        key="product_pagination",
-    )
+    # Streamlit pagination is 0-based, FastAPI page is 1-based
+    page = st.session_state.get("product_pagination", 1)
 
     products, total = get_products(page)
 
     if products:
         df = pd.json_normalize(products)
 
-        # Keep your existing column-selection code here
         preferred_columns = [
             "id", "sku", "name", "category", "brand",
             "price", "discount_percent", "final_price",
@@ -374,72 +366,16 @@ with tab_dashboard:
 
         st.caption(f"{len(products)} product(s) displayed.")
 
-# -------------------------------------------------------
-    # Pagination
-#     if "page" not in st.session_state:
-#         st.session_state.page = 1
+    total_pages = max(1, (total + 49) // 50)
 
-#     col1, col2, col3 = st.columns([1, 2, 1])
-
-#     with col1:
-#         if st.button("⬅️ Previous", disabled=st.session_state.page == 1):
-#             st.session_state.page -= 1
-#             st.rerun()
-
-#     with col2:
-#         st.markdown(
-#             f"<h4 style='text-align:center;'>Page {st.session_state.page}</h4>",
-#             unsafe_allow_html=True
-#         )
-
-#     with col3:
-#         if st.button("Next ➡️"):
-#             st.session_state.page += 1
-#             st.rerun()
-# # ---------------------------------------------------------
-
-#     products = get_products(st.session_state.page)
-
-#     # products = get_products()
-
-#     if products:
-#         df = pd.json_normalize(products)
-
-#         # Keep the table readable by selecting useful columns first.
-#         preferred_columns = [
-#             "id",
-#             "sku",
-#             "name",
-#             "category",
-#             "brand",
-#             "price",
-#             "discount_percent",
-#             "final_price",
-#             "stock",
-#             "is_active",
-#             "rating",
-#             "volume",
-#         ]
-
-#         available_columns = [
-#             column for column in preferred_columns if column in df.columns
-#         ]
-
-#         remaining_columns = [
-#             column for column in df.columns if column not in available_columns
-#         ]
-
-#         df = df[available_columns + remaining_columns]
-
-#         st.dataframe(
-#             df,
-#             use_container_width=True,
-#             hide_index=True,
-#         )
-
-#         st.caption(f"{len(products)} product(s) displayed.")
-#     else:
-#         st.info("No products found.")
+    # Center Pagination
+    col1, col2, col3 = st.columns([2, 1, 2])
+    with col2:
+        st.pagination(
+            num_pages=total_pages,
+            max_visible_pages=7,
+            key="product_pagination",
+        )
 
 
 
