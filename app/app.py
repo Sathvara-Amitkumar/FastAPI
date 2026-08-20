@@ -332,8 +332,6 @@ with tab_dashboard:
     if st.button("🔄 Refresh Products", key="refresh_products"):
         st.rerun()
 
-    table_slot = st.empty()
-
     products, total = get_products(1)
 
     total_pages = max(1, (total + 49) // 50)
@@ -346,36 +344,35 @@ with tab_dashboard:
 
     products, total = get_products(page)
 
-    with table_slot:
-        if products:
-            df = pd.json_normalize(products)
+    if products:
+        df = pd.json_normalize(products)
 
-            # Keep your existing column-selection code here
-            preferred_columns = [
-                "id", "sku", "name", "category", "brand",
-                "price", "discount_percent", "final_price",
-                "stock", "is_active", "rating", "volume"
-            ]
+        # Keep your existing column-selection code here
+        preferred_columns = [
+            "id", "sku", "name", "category", "brand",
+            "price", "discount_percent", "final_price",
+            "stock", "is_active", "rating", "volume"
+        ]
 
-            available_columns = [
-                column for column in preferred_columns
-                if column in df.columns
-            ]
+        available_columns = [
+            column for column in preferred_columns
+            if column in df.columns
+        ]
 
-            remaining_columns = [
-                column for column in df.columns
-                if column not in available_columns
-            ]
+        remaining_columns = [
+            column for column in df.columns
+            if column not in available_columns
+        ]
 
-            df = df[available_columns + remaining_columns]
+        df = df[available_columns + remaining_columns]
 
-            st.dataframe(
-                df,
-                use_container_width=True,
-                hide_index=True,
-            )
+        st.dataframe(
+            df,
+            use_container_width=True,
+            hide_index=True,
+        )
 
-            st.caption(f"{len(products)} product(s) displayed.")
+        st.caption(f"{len(products)} product(s) displayed.")
 
 # -------------------------------------------------------
     # Pagination
