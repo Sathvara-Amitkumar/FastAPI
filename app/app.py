@@ -366,7 +366,7 @@ with tab_dashboard:
             hide_index=True,
         )
 
-        st.caption(f"{len(products)} {"product" if len(products) == 1 else "products"} displayed.")
+        st.caption(f"{len(products)} {'product' if len(products) == 1 else 'products'} displayed.")
 
     total_pages = max(1, (total + 49) // 50)
 
