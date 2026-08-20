@@ -15,7 +15,7 @@ st.set_page_config(
 
 st.title("📦 Product Management Dashboard")
 
-API_BASE_URL = "http://127.0.0.1:8000"
+API_BASE_URL = "https://fastapi-y6xp.onrender.com"
 
 TIMEOUT = 10
 
