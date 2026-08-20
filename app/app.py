@@ -340,6 +340,8 @@ with tab_dashboard:
     if products:
         df = pd.json_normalize(products)
 
+        df.columns = [col.replace("_", " ").title() for col in df.columns]
+
         preferred_columns = [
             "id", "sku", "name", "category", "brand",
             "price", "discount_percent", "final_price",
@@ -364,7 +366,7 @@ with tab_dashboard:
             hide_index=True,
         )
 
-        st.caption(f"{len(products)} product(s) displayed.")
+        st.caption(f"{len(products)} {"product" if len(products) == 1 else "products"} displayed.")
 
     total_pages = max(1, (total + 49) // 50)
 
@@ -376,8 +378,6 @@ with tab_dashboard:
             max_visible_pages=7,
             key="product_pagination",
         )
-
-
 
 
 # ---------------------------------------------------------

@@ -3504,7 +3504,7 @@
     "created_at": "2025-05-31T00:00:00Z"
   },
   {
-    "id": "f59665b3-4964-4262-b767-593d1faa354a",
+    "id": "4e53db9a-eac0-4ee2-9dd9-482b71c5366f",
     "sku": "SAMS-512GB-101",
     "name": "Samsung S26 Ultra",
     "description": "Brand, who made the glass of the iPhone.",
@@ -3512,8 +3512,8 @@
     "brand": "Samsung",
     "price": 189000.0,
     "currency": "INR",
-    "discount_percent": 8,
-    "stock": 35,
+    "discount_percent": 9,
+    "stock": 55,
     "is_active": true,
     "rating": 4.8,
     "tags": [
@@ -3523,21 +3523,21 @@
       "samsung"
     ],
     "image_urls": [
-      "https://samsung.front.png/"
+      "https://samsung.front.jpg/"
     ],
     "dimensions_cm": {
-      "length": 25.5,
-      "width": 14.3,
-      "height": 21.5
+      "length": 25.0,
+      "width": 14.5,
+      "height": 21.22
     },
     "seller": {
-      "seller_id": "0866cae2-2784-4791-a00c-556f74c835b7",
-      "name": "Might Guy",
-      "email": "guymight719@samsungindia.in",
-      "website": "https://www.might.com/"
+      "seller_id": "fe3ad9ba-0fdb-4933-9559-73b688a0676e",
+      "name": "Jackie Chan",
+      "email": "jackiechan@samsungindia.in",
+      "website": "https://www.samsung.com/"
     },
-    "created_at": "2026-08-19T10:28:45.319189Z",
-    "final_price": 173880.0,
-    "volume": 7839.98
+    "created_at": "2026-08-20T07:34:04.971519Z",
+    "final_price": 171990.0,
+    "volume": 7692.25
   }
 ]
