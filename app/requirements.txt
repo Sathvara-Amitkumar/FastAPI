@@ -3,3 +3,5 @@ requests
 uvicorn 
 pandas
 fastapi
+pydantic
+email_validator
