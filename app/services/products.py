@@ -13,8 +13,6 @@ def load_products() -> List[Dict]:
         return json.load(file)
 
 
-
-
 def get_all_products() -> List[Dict]:
     return load_products()
 

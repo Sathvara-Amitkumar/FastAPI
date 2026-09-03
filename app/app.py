@@ -16,9 +16,9 @@ st.set_page_config(
 st.title("📦 Product Management Dashboard")
 
 # API_BASE_URL = "https://fastapi-y6xp.onrender.com"
-API_BASE_URL = "http://127.0.0.1:8000/"
+API_BASE_URL = "http://127.0.0.1:8000"
 
-TIMEOUT = 10
+TIMEOUT = 20
 
 
 # ---------------------------------------------------------
@@ -29,7 +29,7 @@ def api_request(method, endpoint, **kwargs):
     try:
         response = requests.request(
             method,
-            f"{API_BASE_URL}{endpoint}",
+            f"{API_BASE_URL.rstrip('/')}/{endpoint.lstrip('/')}",
             timeout=TIMEOUT,
             **kwargs,
         )

@@ -8,16 +8,19 @@ app = FastAPI()
 
 # Search products by name and sort them ----------------------------------------------
 @app.get("/products")
-def list_products(dep=Depends(load_products), # Dependencie Injection
-    name: str = Query(min_length=1, max_length=60, default=None, description="Search Peroducts"),
+def list_products(
+    name: str = Query(None, min_length=1, max_length=60, description="Search Products"),
     price: bool = Query(default=False, description="Sort products by price"),
     order: str = Query(default="asc", description="Select order of price (asc or desc)"),
     page: int = Query(default=1, ge=1),
-    limit: int = Query(default=5, ge=1,le=50, description="Maximum number of products to show")
+    limit: int = Query(default=5, ge=1, le=50, description="Maximum number of products to show")
     ):
 
-    # Dependencie Injection
-    products = dep
+    # Load products from JSON
+    products = get_all_products()
+    
+    if isinstance(products, str):
+        raise HTTPException(status_code=404, detail=products)
 
     if name:
         needle = name.strip().lower()
@@ -37,16 +40,13 @@ def list_products(dep=Depends(load_products), # Dependencie Injection
     end = start + limit
 
     products = products[start:end]
-    # products = products[:limit]
-
-    # products = [Product(**p) for p in products]
 
     return {"Total": total, "Limit": limit, "Items": products}
 
 
 @app.get("/products/{product_id}")
 def get_product_by_id(product_id: str = Path(..., min_length=36, max_length=36, 
-                           description="Search product by product_id", example="6c7b7c69-f07f-4474-992e-58d3c48ac4370")):
+                           description="Search product by product_id", examples="6c7b7c69-f07f-4474-992e-58d3c48ac4370")):
     
     products = get_all_products()
 
