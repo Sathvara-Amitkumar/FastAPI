@@ -1,54 +1,46 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, UUID, Float, Integer, literal, Boolean, DateTime
+from sqlalchemy import Column, String, UUID, Float, Integer, Boolean, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
+from datetime import datetime
 
 base = declarative_base()
 
-class Seller():
-    seller_id = Column(UUID, primary_key=True)
+# Seller Model
+class Seller(base):
+    __tablename__ = "sellers"
+    
+    seller_id = Column(UUID, primary_key=True, index=True)
     name = Column(String)
     email = Column(String)
     website = Column(String)
 
 
-# Dimensions Model
-class Dimensions():
+# Main Product Part
+class Product(base):   
+    __tablename__ = "inventory_management"
+
+    id = Column(UUID, primary_key=True, index=True)
+    sku = Column(String)
+    name = Column(String)
+    description = Column(String)
+    category = Column(String)
+    brand = Column(String)
+    price = Column(Float)
+    currency = Column(String, default="INR")
+    discount_percent = Column(Integer)
+    stock = Column(Integer)
+    is_active = Column(Boolean, default=True)
+    rating = Column(Float)
+    tags = Column(String)
+    image_urls = Column(String)
+    
+    # Store dimensions as JSON strings (simpler)
     length = Column(Float)
     width = Column(Float)
     height = Column(Float)
-
-
-# Main Product Part
-class Product(base):   
-    id = Column(UUID, primary_key=True)
     
-    sku = Column(String, )
+    # Foreign key for seller
+    seller_id = Column(UUID, ForeignKey("sellers.seller_id"))
+    seller = relationship("Seller")
     
-    name = Column(String)
-    
-    description = Column(String)
-
-    category = Column(String)
-
-    brand = Column(String)
-
-    price = Column(Float)
-
-    currency = Column(literal, default="INR")
-
-    discount_percent = Column(Integer)
-
-    stock = Column(Integer)
-
-    is_active = Column(Boolean, default=True)
-
-    rating = Column(Float)
-
-    tags = Column(String)
-
-    image_urls = Column(String)
-
-    dimensions_cm: Dimensions
-
-    seller: Seller
-
-    created_at: DateTime
+    created_at = Column(DateTime, default=datetime.utcnow)
