@@ -1,25 +1,28 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, UUID, Float, Integer, Boolean, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import DeclarativeBase, relationship
+from sqlalchemy import Column, String, Float, Integer, Boolean, DateTime, ForeignKey
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import UUID, JSONB
+import uuid
 
-base = declarative_base()
+class Base(DeclarativeBase):
+    pass
+
 
 # Seller Model
-class Seller(base):
+class Seller(Base):
     __tablename__ = "sellers"
     
-    seller_id = Column(UUID, primary_key=True, index=True)
+    seller_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     name = Column(String)
     email = Column(String)
     website = Column(String)
 
 
 # Main Product Part
-class Product(base):   
+class Product(Base):   
     __tablename__ = "inventory_management"
 
-    id = Column(UUID, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     sku = Column(String)
     name = Column(String)
     description = Column(String)
@@ -40,7 +43,7 @@ class Product(base):
     height = Column(Float)
     
     # Foreign key for seller
-    seller_id = Column(UUID, ForeignKey("sellers.seller_id"))
+    seller_id = Column(UUID(as_uuid=True), ForeignKey("sellers.seller_id"))
     seller = relationship("Seller")
     
     created_at = Column(DateTime, default=datetime.utcnow)
