@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 from typing import List, Dict
 from fastapi import Query, Depends, HTTPException
+from uuid import UUID
 
 # Database
 from sqlalchemy.orm import Session
@@ -51,7 +52,34 @@ def init_db():
                         website = seller_data["website"]
                     )
                     db.add(seller)
-                
+
+                dimensions = product.get("dimensions_cm", {})
+
+                product_data = {
+                    "id": product["id"],
+                    "sku": product["sku"],
+                    "name": product["name"],
+                    "description": product["description"],
+                    "category": product["category"],
+                    "brand": product["brand"],
+                    "price": product["price"],
+                    "currency": product["currency"],
+                    "discount_percent": product["discount_percent"],
+                    "stock": product["stock"],
+                    "is_active": product["is_active"],
+                    "rating": product["rating"],
+                    "tags": product["tags"],
+                    "image_urls": product["image_urls"],
+
+                    "length": dimensions.get("length"),
+                    "width": dimensions.get("width"),
+                    "height": dimensions.get("height"),
+
+                    "seller_id": seller_data.get("seller_id") if seller_data else None,
+
+                    "created_at": product["created_at"]
+                }
+                db.add(model_db.Product(**product_data))
             
             db.commit()
     finally:
@@ -66,6 +94,15 @@ init_db()
 def get_all_products(db: Session) -> List:
     db_products = db.query(model_db.Product).all()
     return db_products
+
+
+# Get product by id
+def get_product_id_db(product_id: UUID, db: Session):
+    product = db.get(model_db.Product, product_id)
+
+    if not product:
+        raise ValueError("Product not found!")
+    return product
 
 
 # Save products
