@@ -1,14 +1,18 @@
 from fastapi import FastAPI, HTTPException, Query, Path, Depends
-from services.products import get_all_products, add_products, remove_product, change_product, load_products
+from services.products import get_all_products, add_products, remove_product, change_product, load_products, get_db
 from schema.products import Product
 from uuid import uuid4, UUID
 from datetime import datetime
+
+from sqlalchemy.orm import Session
+import config.model_database as model_db
+
 
 app = FastAPI()
 
 # Search products by name and sort them ----------------------------------------------
 @app.get("/products")
-def list_products(dep=Depends(load_products), # Dependencie Injection
+def list_products(db: Session = Depends(get_db), # Dependencie Injection
     name: str = Query(min_length=1, max_length=60, default=None, description="Search Peroducts"),
     price: bool = Query(default=False, description="Sort products by price"),
     order: str = Query(default="asc", description="Select order of price (asc or desc)"),
@@ -17,7 +21,7 @@ def list_products(dep=Depends(load_products), # Dependencie Injection
     ):
 
     # Dependencie Injection
-    products = dep
+    products = get_all_products(db)
 
     if name:
         needle = name.strip().lower()
@@ -46,12 +50,13 @@ def list_products(dep=Depends(load_products), # Dependencie Injection
 
 @app.get("/products/{product_id}")
 def get_product_by_id(product_id: str = Path(..., min_length=36, max_length=36, 
-                           description="Search product by product_id", example="6c7b7c69-f07f-4474-992e-58d3c48ac4370")):
+                           description="Search product by product_id", examples="6c7b7c69-f07f-4474-992e-58d3c48ac4370"),
+                           db: Session = Depends(get_db)):
     
-    products = get_all_products()
+    products = get_all_products(db)
 
     for product in products:
-        if product["id"] == product_id:
+        if db.get(model_db.Product, id) == product_id:
             return product
 
     raise HTTPException(status_code=404, detail=f"Product Not Found with id => {product_id}")

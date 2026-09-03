@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 from typing import List, Dict
-from fastapi import Query, Depends
+from fastapi import Query, Depends, HTTPException
 
 # Database
 from sqlalchemy.orm import Session
@@ -41,7 +41,18 @@ def init_db():
             with open(DATA_FILE, "r", encoding="utf-8") as file:
                 products = json.load(file)
 
-            db.add_all(model_db.Product(**product) for product in products)
+            for product in products:
+                seller_data = product.get("seller")
+                if seller_data:
+                    seller = model_db.Seller(
+                        seller_id = seller_data["seller_id"],
+                        name = seller_data["name"],
+                        email = seller_data["email"],
+                        website = seller_data["website"]
+                    )
+                    db.add(seller)
+                
+            
             db.commit()
     finally:
         db.close()
@@ -49,9 +60,12 @@ def init_db():
 init_db()
 
 
-def get_all_products() -> List[Dict]:
-    return load_products()
+# def get_all_products() -> List[Dict]:
+#     return load_products()
 
+def get_all_products(db: Session) -> List:
+    db_products = db.query(model_db.Product).all()
+    return db_products
 
 
 # Save products
@@ -73,21 +87,15 @@ def add_products(product: Dict) -> Dict:
 
 
 # delete products
-def remove_product(id: str) -> str:
-    products = get_all_products()
+def remove_product(id: str, db: Session) -> str:
+    db_product = db.get(model_db.Product, id)
 
-    remove_prod = next((p for p in products if p["id"] == id), None)
-    if remove_prod is None:
-        raise ValueError("Product not found.")
-    
-    products.remove(remove_prod)
-    save_products(products)
-    return "Product removed successfully!"
+    if not db_product:
+        raise ValueError("Product not found!")
 
-# This one is also useful !
-    # for idx, p in enumerate(products):
-	# if p["id"] == str(id):
-	# 	delete = products.pop(idx)
+    db.delete(db_product)
+    db.commit()
+    return "Product deleted successfully!"
 
 
 # Update product
