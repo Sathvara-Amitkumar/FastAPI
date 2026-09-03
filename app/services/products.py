@@ -3,21 +3,6 @@ import json
 from typing import List, Dict
 from fastapi import Query, Depends
 
-# Database
-from sqlalchemy.orm import Session
-import config.model_database as model_db
-from config.config import session, engine
-
-model_db.base.metadata.create_all(bind=engine)
-
-def get_db():
-    db = session()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 DATA_FILE = Path(__file__).parent.parent / "data" / "products.json"
 
 def load_products() -> List[Dict]:
@@ -28,33 +13,10 @@ def load_products() -> List[Dict]:
         return json.load(file)
 
 
-# Database -> Add all products from JSON
-def init_db():
-    db = session()
-    try:
-        count = db.query(model_db.Product).count()
-
-        if count == 0:
-            if not DATA_FILE.exists():
-                return "File path not exist."
-
-            with open(DATA_FILE, "r", encoding="utf-8") as file:
-                products = json.load(file)
-
-            db.add_all(model_db.Product(**product) for product in products)
-            db.commit()
-    finally:
-        db.close()
-        
-init_db()
 
 
-# def get_all_products() -> List[Dict]:
-#     return load_products()
-
-def get_all_products(db: Session = Depends(get_db)):
-    db_products = db.query(model_db.Product).all()
-    return db_products
+def get_all_products() -> List[Dict]:
+    return load_products()
 
 
 # Save products
