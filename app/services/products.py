@@ -112,15 +112,18 @@ def save_products(products: List[Dict]) -> None:
 
 
 # add product in json and save them
-def add_products(product: Dict) -> Dict:
-    products = get_all_products()
+def add_products(product: Dict, db: Session) -> Dict:
+    products = get_all_products(db)
+    sku = product.get("sku")
 
-    if any(p["sku"] == product["sku"] for p in products):
+    if any(p.sku == sku for p in products):
         raise ValueError("SKU already exists.")
 
-    products.append(product)
-    save_products(products)
-    return product
+    db_product = model_db.Product(**product)
+    db.add(db_product)
+    db.commit()
+    db.refresh(db_product)
+    return db_product
 
 
 # delete products

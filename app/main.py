@@ -68,13 +68,13 @@ def get_product_by_id(product_id: UUID = Path(...,description="Search product by
 
 # Post Methods
 @app.post("/products", status_code=201)
-def create_product(product: Product):
+def create_product(product: Product, db: Session = Depends(get_db)):
     product_dict = product.model_dump(mode="json")
     product_dict["id"] = str(uuid4())
     product_dict["created_at"] = datetime.utcnow().isoformat() + "Z"
 
     try:
-        add_products(product_dict)
+        add_products(product_dict, db)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -83,9 +83,9 @@ def create_product(product: Product):
 
 # Delete method
 @app.delete("/del_product/{id}", status_code=200)
-def delete_product(id: UUID = Path(..., description="Enter product id which u want to delete")):
+def delete_product(id: UUID = Path(..., description="Enter product id which u want to delete"), db: Session = Depends(get_db)):
     try:
-        res = remove_product(str(id))
+        res = remove_product(str(id), db)
         return res
     except ValueError as e:
         raise HTTPException(detail=str(e), status_code=400)

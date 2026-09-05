@@ -43,8 +43,7 @@ class Dimensions(BaseModel):
 class Product(BaseModel):   
     id: UUID
     
-    sku: Annotated[str, Field(min_length=14, max_length=14, title="SKU", 
-                              description="Stock Keeping Unit", examples=["REAL-135GB-002", "SAMS-225GB-003"])]
+    sku: Annotated[str, Field(title="SKU", description="Stock Keeping Unit", examples=["REAL-135GB-002", "SAMS-225GB-003"])]
     
     name: Annotated[str, Field(min_length=5, max_length=50, title="Product Name", 
                               description="Product name", examples=["Xiaomi Model Pro", "Realme Model Air"])]

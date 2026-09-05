@@ -36,7 +36,7 @@ class Product(Base):
     rating = Column(Float)
     tags = Column(String)
     image_urls = Column(String)
-    
+
     # Store dimensions as JSON strings (simpler)
     length = Column(Float)
     width = Column(Float)
