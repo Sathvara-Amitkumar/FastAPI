@@ -1,1 +1,28 @@
-__pycache__
+__pycache__/
+
+venv/
+.venv/
+env/
+.env/
+
+*.py[cod]
+
+# Environment variables and local secrets
+.env.*
+!.env.example
+config/config.py
+app/config/config.py
+**/.streamlit/secrets.toml
+
+# Test and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
