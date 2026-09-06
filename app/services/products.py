@@ -1,6 +1,7 @@
 from typing import List, Dict
 from fastapi import Query, Depends, HTTPException
 from uuid import UUID
+from sqlalchemy import Integer, cast, func
 
 # Database
 from sqlalchemy.orm import Session
@@ -112,7 +113,15 @@ def product_to_dict(product):
 
 
 def get_all_products(db: Session) -> List[Dict]:
-    products = db.query(model_db.Product).all()
+    sku_number = cast(
+        func.regexp_replace(model_db.Product.sku, r"^.*-", ""),
+        Integer,
+    )
+    products = db.query(model_db.Product).order_by(
+        sku_number,
+        model_db.Product.sku,
+    ).all()
+    
     return [product_to_dict(product) for product in products]
 
 
