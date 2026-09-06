@@ -121,13 +121,15 @@ def add_products(product: Dict, db: Session) -> Dict:
 
     # Seller
     seller_data = product.get("seller")
+    if seller_data:
+        seller = db.get(model_db.Seller, seller_data["seller_id"])
+        if seller is None:
+            seller = model_db.Seller(seller_id=seller_data["seller_id"])
+            db.add(seller)
 
-    seller = model_db.Seller(
-        seller_id=seller_data["seller_id"],
-        name=seller_data["name"],
-        email=str(seller_data["email"]),
-        website=str(seller_data["website"])
-    )
+        seller.name = seller_data["name"]
+        seller.email = str(seller_data["email"])
+        seller.website = str(seller_data["website"])
 
     db.add(seller)
 
@@ -179,14 +181,51 @@ def remove_product(id: str, db: Session) -> str:
 
 
 # Update product
-def change_product(id: str, product: Dict) -> str:
-    products = get_all_products()
+def change_product(id: str, product: Dict, db: Session) -> str:
+    db_product = db.query(model_db.Product).filter(
+        model_db.Product.id == id
+    ).first()
 
-    update_id = next((p for p in products if p["id"] == id), None)
+    if not db_product:
+        raise ValueError("Product not found!")
 
-    if update_id is None:
-        raise ValueError("Id is not found!")
+    dimensions = product.get("dimensions_cm", {})
 
-    update_id.update(product)
-    save_products(products)
-    return "Product updated successfully!"
+    seller_data = product.get("seller")
+    
+    if seller_data:
+        seller = db.query(model_db.Product).filter(
+            model_db.Seller.seller_id == seller_data["seller_id"]
+        ).first()
+
+        if not seller:
+            raise ValueError("Seller not found!")
+
+        db_product.seller_id = seller.seller_id
+
+    # Product fields
+    db_product.sku = product["sku"]
+    db_product.name = product["name"]
+    db_product.description = product["description"]
+    db_product.category = product["category"]
+    db_product.brand = product["brand"]
+    db_product.price = product["price"]
+    db_product.currency = product["currency"]
+    db_product.discount_percent = product["discount_percent"]
+    db_product.stock = product["stock"]
+    db_product.is_active = product["is_active"]
+    db_product.rating = product["rating"]
+    db_product.tags = product["tags"]
+    db_product.image_urls = product["image_urls"]
+
+    # Dimensions
+    db_product.length = dimensions.get("length")
+    db_product.width = dimensions.get("width")
+    db_product.height = dimensions.get("height")
+
+    db_product.created_at = product["created_at"]
+
+    db.commit()
+    db.refresh(db_product)
+
+    return db_product

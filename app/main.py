@@ -78,7 +78,7 @@ def create_product(product: Product, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return create_product
+    return product
 
 
 # Delete method
@@ -93,9 +93,9 @@ def delete_product(id: UUID = Path(..., description="Enter product id which u wa
 
 # UPdate Method
 @app.put("/products/{product_id}")
-def update_product(product: Product, product_id: UUID = Path(..., description="Enter product id which u want to delete")):
+def update_product(product: Product, product_id: UUID = Path(..., description="Enter product id which u want to delete"), db: Session = Depends(get_db)):
     try:
-        res = change_product(str(product_id), product.model_dump(mode="json", exclude_unset=True))
+        res = change_product(str(product_id), product.model_dump(mode="json", exclude_unset=True), db)
         return res
     except ValueError as e:
         raise HTTPException(detail=str(e), status_code=400)

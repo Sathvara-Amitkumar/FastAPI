@@ -261,7 +261,11 @@ def product_form(defaults=None, key_prefix="form"):
     with s1:
         seller_id = st.text_input(
             "Seller UUID *",
-            value=str(seller.get("seller_id") or uuid4()),
+            value=str(
+                seller.get("seller_id") 
+                or defaults.get("seller_id") 
+                or uuid4()
+            ),
             key=f"{key_prefix}_seller_id",
         )
         seller_name = st.text_input(
@@ -463,8 +467,21 @@ with tab_update:
             product = get_product(update_id.strip())
 
             if product:
+                product["dimensions_cm"] = {
+                    "length": product.get("length", 0.0),
+                    "width": product.get("width", 0.0),
+                    "height": product.get("height", 0.0),
+                }
+
+                product["seller"] = {
+                    "seller_id": product.get("seller_id"),
+                    "name": "",
+                    "email": "",
+                    "website": "",
+                }
                 st.session_state["product_to_update"] = product
                 st.success("Product loaded. Edit the fields below.")
+
             else:
                 st.session_state.pop("product_to_update", None)
 
