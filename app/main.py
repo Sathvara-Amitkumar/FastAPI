@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Query, Path, Depends
-from services.products import get_all_products, add_products, remove_product, change_product, load_products, get_db, get_product_id_db
+from services.products import get_all_products, add_products, remove_product, change_product, get_db, get_product_id_db
 from schema.products import Product
 from uuid import uuid4, UUID
 from datetime import datetime
@@ -32,14 +32,14 @@ def list_products(db: Session = Depends(get_db), # Dependencie Injection
 
     if name:
         needle = name.strip().lower()
-        products = [p for p in products if needle in p.get("name", "").lower()]
+        products = [p for p in products if needle in p.name.lower()]
 
     if not products:
         raise HTTPException(status_code=404, detail="No product found!")
 
     if price:
         rev = order == "desc"
-        products = sorted(products, key=lambda p: p.get("price", 0), reverse=rev)
+        products = sorted(products, key=lambda p: p.price, reverse=rev)
 
     total = len(products)
 
@@ -78,7 +78,7 @@ def create_product(product: Product, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return product
+    return create_product
 
 
 # Delete method
