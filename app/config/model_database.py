@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, Float, Integer, Boolean, DateTime, Foreig
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 import uuid
+from sqlalchemy import Computed
 
 class Base(DeclarativeBase):
     pass
@@ -41,6 +42,10 @@ class Product(Base):
     length = Column(Float)
     width = Column(Float)
     height = Column(Float)
+
+    # Computed field
+    final_price = Column(Integer, Computed("price * (1 - discount_percent / 100.0)"))
+    volume = Column(Float, Computed("length * width * height"))
     
     # Foreign key for seller
     seller_id = Column(UUID(as_uuid=True), ForeignKey("sellers.seller_id"))
