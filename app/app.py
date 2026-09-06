@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import json
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -86,7 +87,26 @@ def get_product(product_id):
 
 
 def safe_list(value):
-    return value if isinstance(value, list) else []
+    if isinstance(value, list):
+        return value
+
+    if not isinstance(value, str) or not value.strip():
+        return []
+
+    value = value.strip()
+
+    try:
+        parsed = json.loads(value)
+    except json.JSONDecodeError:
+        parsed = None
+
+    if isinstance(parsed, list):
+        return parsed
+
+    if value.startswith("{") and value.endswith("}"):
+        value = value[1:-1]
+
+    return [item.strip().strip('"') for item in value.split(",") if item.strip()]
 
 
 def build_product_payload(
@@ -261,24 +281,28 @@ def product_form(defaults=None, key_prefix="form"):
     with s1:
         seller_id = st.text_input(
             "Seller UUID *",
-            value=str(seller.get("seller_id") or uuid4()),
+            value=str(
+                seller.get("seller_id")
+                or defaults.get("seller_id")
+                or ""
+            ),
             key=f"{key_prefix}_seller_id",
         )
         seller_name = st.text_input(
             "Seller Name *",
-            value=seller.get("name", ""),
+            value=str(seller.get("name") or defaults.get("name")),
             key=f"{key_prefix}_seller_name",
         )
 
     with s2:
         seller_email = st.text_input(
             "Seller Email *",
-            value=seller.get("email", ""),
+            value=str(seller.get("email") or defaults.get("email")),
             key=f"{key_prefix}_seller_email",
         )
         seller_website = st.text_input(
             "Seller Website *",
-            value=seller.get("website", ""),
+            value=str(seller.get("website") or defaults.get("website")),
             key=f"{key_prefix}_seller_website",
         )
 
@@ -450,6 +474,9 @@ with tab_search:
 with tab_update:
     st.header("Update Product")
 
+    if st.session_state.pop("update_success", False):
+        st.success("Product updated successfully!")
+
     update_id = st.text_input(
         "Product UUID",
         placeholder="Enter product ID to load",
@@ -465,6 +492,8 @@ with tab_update:
             if product:
                 st.session_state["product_to_update"] = product
                 st.success("Product loaded. Edit the fields below.")
+                st.rerun()
+
             else:
                 st.session_state.pop("product_to_update", None)
 
@@ -474,7 +503,7 @@ with tab_update:
         with st.form("update_product_form"):
             payload = product_form(
                 defaults=product_to_update,
-                key_prefix="update",
+                key_prefix=f"update_{product_to_update['id']}",
             )
 
             submitted = st.form_submit_button(
@@ -491,8 +520,8 @@ with tab_update:
             )
 
             if response is not None and response.ok:
-                st.success("Product updated successfully!")
                 st.session_state.pop("product_to_update", None)
+                st.session_state["update_success"] = True
                 st.rerun()
             elif response is not None:
                 show_api_error(response)

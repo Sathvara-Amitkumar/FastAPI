@@ -1,7 +1,9 @@
 streamlit>=1.58.0
 requests
-uvicorn 
+uvicorn
 pandas
 fastapi
 pydantic
-email_validator
+email-validator
+SQLAlchemy
+psycopg2-binary
