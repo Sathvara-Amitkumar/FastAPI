@@ -74,11 +74,11 @@ def create_product(product: Product, db: Session = Depends(get_db)):
     product_dict["created_at"] = datetime.utcnow().isoformat() + "Z"
 
     try:
-        add_products(product_dict, db)
+        created_product = add_products(product_dict, db)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return product.model_dump(mode="json")
+    return create_product
 
 
 # Delete method

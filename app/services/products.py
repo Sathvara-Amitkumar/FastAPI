@@ -119,10 +119,50 @@ def add_products(product: Dict, db: Session) -> Dict:
     if any(p.sku == sku for p in products):
         raise ValueError("SKU already exists.")
 
-    db_product = model_db.Product(**product)
+    # Seller
+    seller_data = product.get("seller")
+
+    seller = model_db.Seller(
+        seller_id=seller_data["seller_id"],
+        name=seller_data["name"],
+        email=str(seller_data["email"]),
+        website=str(seller_data["website"])
+    )
+
+    db.add(seller)
+
+    # Dimensions
+    dimensions = product.get("dimensions_cm", {})
+
+    # Product
+    db_product = model_db.Product(
+        id=product["id"],
+        sku=product["sku"],
+        name=product["name"],
+        description=product["description"],
+        category=product["category"],
+        brand=product["brand"],
+        price=product["price"],
+        currency=product["currency"],
+        discount_percent=product["discount_percent"],
+        stock=product["stock"],
+        is_active=product["is_active"],
+        rating=product["rating"],
+        tags=product["tags"],
+        image_urls=product["image_urls"],
+
+        length=dimensions.get("length"),
+        width=dimensions.get("width"),
+        height=dimensions.get("height"),
+
+        seller_id=seller_data["seller_id"],
+        created_at=product["created_at"]
+    )
+
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
+
     return db_product
 
 
