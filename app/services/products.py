@@ -142,7 +142,13 @@ def add_products(product: Dict, db: Session) -> Dict:
     products = get_all_products(db)
     sku = product.get("sku")
 
-    if any(p.sku == sku for p in products):
+    existing_product = (
+        db.query(model_db.Product)
+        .filter(model_db.Product.sku == product["sku"])
+        .first()
+    )
+
+    if existing_product:
         raise ValueError("SKU already exists.")
 
     # Seller
