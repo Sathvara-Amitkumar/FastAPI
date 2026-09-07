@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Query, Path, Depends
-from services.products import get_all_products, add_products, remove_product, change_product, get_db, get_product_id_db
+from services.products import get_all_products, add_products, remove_product, change_product, get_db, get_product_id_db, product_to_dict
 from schema.products import Product
 from uuid import uuid4, UUID
 from datetime import datetime
@@ -75,7 +75,7 @@ def create_product(product: Product, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return create_product
+    return product_to_dict(create_product)
 
 
 # Delete method
