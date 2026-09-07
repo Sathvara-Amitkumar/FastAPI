@@ -75,7 +75,7 @@ def create_product(product: Product, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return product_to_dict(create_product)
+    return product_to_dict(created_product)
 
 
 # Delete method
