@@ -62,19 +62,6 @@ def get_product_by_id(product_id: UUID = Path(...,description="Search product by
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-from sqlalchemy import text
-
-@app.get("/db-check")
-def db_check(db: Session = Depends(get_db)):
-    result = db.execute(
-        text("SELECT current_database(), current_user")
-    ).fetchone()
-
-    return {
-        "database": result[0],
-        "user": result[1]
-    }
-
 
 # Post Methods
 @app.post("/products", status_code=201)
