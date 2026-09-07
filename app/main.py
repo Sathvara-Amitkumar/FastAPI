@@ -67,7 +67,7 @@ from sqlalchemy import text
 @app.get("/db-check")
 def db_check(db: Session = Depends(get_db)):
     result = db.execute(
-        model_db.text("SELECT current_database(), current_user")
+        text("SELECT current_database(), current_user")
     ).fetchone()
 
     return {
