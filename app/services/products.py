@@ -109,6 +109,9 @@ def product_to_dict(product):
         },
 
         "created_at": product.created_at,
+
+        "final_price": product.final_price,
+        "volume": product.volume,
     }
 
 
