@@ -13,7 +13,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["http://localhost:8501"],
+    allow_origins = ["https://fastapi-crud-app.streamlit.app", "http://localhost:8501"],
     allow_methods=["*"]
 )
 
